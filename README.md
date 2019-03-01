@@ -5,6 +5,7 @@ A cool boilerplate with a router loader and other stuff!
 * Automatically checks ``/routers`` folder for new routers and automatically hooks them up
 * Static folder (``/static``) where you can put your html and stuff
 * Config file to easily configure stuff
+* Logging to log stuff in console (with colours or not) and files!
 
 ## Installation
 1. ``git clone https://github.com/ohlookitsderpy/express-boilerplate``
