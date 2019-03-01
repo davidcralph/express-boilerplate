@@ -1,4 +1,11 @@
 {
-    "port": 8080,
-    "static": true
+    "express": {
+        "port": 8080,
+        "static": true
+    },
+    "logging": {
+        "enabled": true,
+        "colour": true ,
+        "file": true
+    }
 }

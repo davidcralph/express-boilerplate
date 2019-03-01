@@ -1,6 +1,7 @@
 {
   "dependencies": {
-    "express": "4.16.4"
+    "express": "4.16.4",
+    "wumpston": "0.0.7"
   },
   "scripts": {
     "start": "node index.js"

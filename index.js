@@ -21,7 +21,7 @@ readdir('./routers/', (err, files) => { // Start https://anidiots.guide/first-bo
 }); // End https://anidiots.guide/first-bot/a-basic-command-handler (MODIFIED)
 
 // Hook up the static folder (if enabled)
-if (config.static === true) express.static('./static');
+if (config.express.static === true) express.static('./static');
 
 // Listen on port and notify when it is up
-app.listen(config.port, () => { console.log('Server Started!') });
+app.listen(config.express.port, () => { console.log('Server Started!') });
