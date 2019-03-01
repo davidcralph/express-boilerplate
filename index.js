@@ -2,7 +2,10 @@
 const express = require('express');
 const app     = express();
 
-const { readFileSync, existsSync, readdir } = require('fs');
+const { existsSync, readdir } = require('fs');
+
+// Import config
+const config = require('./config.json');
 
 // Check if all folders are intact (Tried detecting config but it got messy)
 if (!existsSync('./routers')) throw new Error('Couldn\'t find \'./routers\'!');
@@ -17,8 +20,8 @@ readdir('./routers/', (err, files) => { // Start https://anidiots.guide/first-bo
     });
 }); // End https://anidiots.guide/first-bot/a-basic-command-handler (MODIFIED)
 
-// Hook up the static folder
-express.static('./static');
+// Hook up the static folder (if enabled)
+if (config.static === true) express.static('./static');
 
 // Listen on port and notify when it is up
-app.listen(8080, () => { console.log('Server Started!') });
+app.listen(config.port, () => { console.log('Server Started!') });
