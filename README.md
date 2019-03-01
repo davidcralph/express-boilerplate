@@ -12,11 +12,13 @@ A cool boilerplate with a router loader and other stuff!
 3. ``npm start`` or ``yarn start`` (yarn gang)
 
 ## Config
+### Example (can also be found in ``config.json``)
 ```json
 {
     "port": 8080,
     "static": true
 }
 ```
-Port - Port that the Express server runs on
-Static - Whether to use the static folder or not 
+### Options
+* Port - Port that the Express server runs on
+* Static - Whether to use the static folder or not 
