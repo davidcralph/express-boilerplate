@@ -24,4 +24,4 @@ readdir('./routers/', (err, files) => { // Start https://anidiots.guide/first-bo
 if (config.static === true) express.static('./static');
 
 // Listen on port and notify when it is up
-app.listen(config.port, () => { console.log('Server Started!') });
+app.listen(config.port, console.log('Server Started!'));
