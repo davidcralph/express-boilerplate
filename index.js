@@ -14,6 +14,7 @@ if (!existsSync('./routers')) throw new Error('Couldn\'t find \'./routers\'!');
 readdir('./routers/', (err, files) => { // Start https://anidiots.guide/first-bot/a-basic-command-handler (MODIFIED)
     if (err) return console.log(err);
     files.forEach(file => {
+        if (!file.endsWith('.js')) return;
         const router = require(`./routers/${file}`);
         let name = file.split(".")[0];
         app.use('/', router);
