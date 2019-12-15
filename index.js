@@ -1,28 +1,31 @@
 // Import modules
 const express = require('express');
-const app     = express();
-
-const { existsSync, readdir } = require('fs');
+const app = express();
+const fs = require('fs');
 
 // Import config
-const config = require('./config.json');
+let config;
+try {
+    config = require('./config.json');
+} catch (error) {
+    throw new Error('Couldn\'t find \'./config.json\'');
+}
 
-// Check if all folders are intact (Tried detecting config but it got messy)
-if (!existsSync('./routers')) throw new Error('Couldn\'t find \'./routers\'!');
+// Check if all folders are intact
+if (!fs.existsSync('./routers')) throw new Error('Couldn\'t find \'./routers\'');
 
 // Hook up all the routers
-readdir('./routers/', (err, files) => { // Start https://anidiots.guide/first-bot/a-basic-command-handler (MODIFIED)
+fs.readdir('./routers/', (err, files) => { // Start https://anidiots.guide/first-bot/a-basic-command-handler (MODIFIED)
     if (err) return console.log(err);
     files.forEach(file => {
-        if (!file.endsWith('.js')) return;
         const router = require(`./routers/${file}`);
-        let name = file.split(".")[0];
+        let name = file.split('.')[0];
         app.use('/', router);
     });
 }); // End https://anidiots.guide/first-bot/a-basic-command-handler (MODIFIED)
 
 // Hook up the static folder (if enabled)
-if (config.static === true) express.static('./static');
+if (config.static) express.static('./static');
 
 // Listen on port and notify when it is up
-app.listen(config.port, console.log('Server Started!'));
+app.listen(config.port, console.log('Info: Express Server Started'));
