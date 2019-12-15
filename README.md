@@ -3,7 +3,7 @@ A cool boilerplate with a router loader and other stuff!
 
 ## Features
 * Automatically checks ``/routers`` folder for new routers and automatically hooks them up
-* Static folder where you can put your html and stuff
+* Static folder where you can put your html, files etc
 * Config file to easily configure stuff
 
 ## Installation
