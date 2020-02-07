@@ -15,7 +15,7 @@ try {
 if (!fs.existsSync('./routers')) throw new Error('Couldn\'t find \'./routers\'');
 
 // Hook up all the routers
-fs.readdir('./routers/', (err, files) => files.forEach(file => app.use('/', require(`./routers/${file}`))));
+fs.readdir('./routers/', (err, files) => files.forEach(file => app.use(require(`./routers/${file}`))));
 
 // Hook up the static folder (if enabled)
 if (config.static.enabled) express.static(config.static.directory);
