@@ -3,5 +3,13 @@
     "static": {
         "enabled": true,
         "directory": "./static"
+    },
+    "logging": {
+        "enabled": true
+    },
+    "ratelimit": {
+        "enabled": true,
+        "maxRequests": 100,
+        "time": 60000
     }
 }

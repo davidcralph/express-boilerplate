@@ -1,4 +1,6 @@
 # Directories
+logs/
+.vscode/
 node_modules/
 
 # Files
