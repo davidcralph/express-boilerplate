@@ -16,7 +16,6 @@ let log;
 if (config.logging.enabled) {
     const Logger = require('leekslazylogger');
     log = new Logger();
-    log.multi(log);
     app.use(require('leekslazylogger-express'));
 }
 
