@@ -2,7 +2,7 @@
   "dependencies": {
     "express": "4.17.1",
     "express-rate-limit": "5.1.3",
-    "leekslazylogger-express": "0.0.7"
+    "leekslazylogger-express": "0.0.8"
   },
   "scripts": {
     "start": "node index.js"
