@@ -9,7 +9,7 @@ A cool boilerplate with a router loader and other stuff!
 * Config file to easily configure stuff
 
 ## Installation
-1. ``git clone https://github.com/ohlookitsderpy/express-boilerplate``
+1. ``git clone https://github.com/davidjcralph/express-boilerplate``
 2. ``npm i`` or ``yarn``
 3. ``npm start`` or ``yarn start``
 
