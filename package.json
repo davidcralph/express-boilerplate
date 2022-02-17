@@ -1,6 +1,6 @@
 {
   "dependencies": {
-    "express": "4.17.2",
+    "express": "4.17.3",
     "express-rate-limit": "6.0.4",
     "leekslazylogger-express": "0.2.1"
   },
