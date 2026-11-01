@@ -1,52 +1,66 @@
-const express = require('express');
+import express from 'express';
+import { rateLimit } from 'express-rate-limit';
+
+import helmet from 'helmet';
+import { Logger } from 'leekslazylogger';
+
+import { existsSync, readdirSync, readFileSync } from 'node:fs';
+import { join } from 'node:path';
+import { pathToFileURL } from 'node:url';
+
 const app = express();
-const fs = require('fs');
-const ratelimit = require('express-rate-limit');
 
 // Config
-let config;
-try {
-  config = require('../config.json');
-} catch (error) {
-  throw new Error('Couldn\'t find \'./config.json\'');
+const configPath = join(import.meta.dirname, '..', 'config.json');
+if (!existsSync(configPath)) {
+  throw new Error(`Couldn't find '${configPath}'`);
 }
+const config = JSON.parse(readFileSync(configPath, 'utf8'));
+
+// Security headers
+app.use(helmet());
 
 // Logging
-let log;
+let log = console;
 if (config.logging.enabled) {
-  const logger = require('leekslazylogger');
-  log = new logger();
-  app.use(require('leekslazylogger-express'));
+  log = new Logger({ namespaces: ['http'] });
+
+  app.use((req, res, next) => {
+    const start = performance.now();
+    res.on('finish', () => {
+      const ms = (performance.now() - start).toFixed(2);
+      log.info.http(`${res.statusCode} ${req.method} ${req.originalUrl} (${ms} ms)`);
+    });
+
+    next();
+  });
 }
 
 // Ratelimiting
 if (config.ratelimit.enabled) {
-  app.use(ratelimit({
+  app.use(rateLimit({
     windowMs: config.ratelimit.time,
-    max: config.ratelimit.maxRequests
+    limit: config.ratelimit.maxRequests,
+    standardHeaders: 'draft-8',
+    legacyHeaders: false
   }));
 }
 
-// Check if all folders are intact
-if (!fs.existsSync('./routers')) {
-  log.error('Couldn\'t find \'./routers\'');
+// Hook up all the routers
+const routersDir = join(import.meta.dirname, 'routers');
+if (!existsSync(routersDir)) {
+  throw new Error(`Couldn't find '${routersDir}'`);
 }
 
-// Hook up all the routers
-fs.readdir('./routers/', (err, files) => {
-  if (err) {
-    log.error(`Failed to load router: ${router}`);
-  }
-
-  files.forEach((file) => {
-    app.use(require(`./routers/${file}`));
-  });
-});
+for (const file of readdirSync(routersDir).filter((f) => f.endsWith('.js')).sort()) {
+  const { default: router } = await import(pathToFileURL(join(routersDir, file)));
+  app.use(router);
+}
 
 // Hook up the static folder (if enabled)
 if (config.static.enabled) {
-  express.static(config.static.directory);
+  app.use(express.static(join(import.meta.dirname, config.static.directory)));
 }
 
 // Listen on port and notify when it is up
-app.listen(config.port, log.info('Express Server Started'));
+app.listen(config.port, () => log.info(`Express server started on port ${config.port}`));
